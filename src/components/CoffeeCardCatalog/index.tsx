@@ -11,12 +11,10 @@ import {
 import coffeeCupCatalog from '../../assets/coffee-cup-catalog.svg'
 import { ShoppingCart } from 'phosphor-react'
 import { InputNumber } from '../InputNumber'
-import { Coffee } from '../../interfaces/Coffee'
+import { Coffee } from '../../interfaces/coffee'
+import { useApp } from '../../contexts/app'
 
-interface CoffeeCardCatalogProps extends Coffee {
-  onChangeInputNumber: (id: string, type: 'increment' | 'decrement') => void
-  onAddToCart: () => void
-}
+interface CoffeeCardCatalogProps extends Coffee {}
 
 export function CoffeeCardCatalog({
   id,
@@ -24,18 +22,19 @@ export function CoffeeCardCatalog({
   title,
   description,
   price,
-  onAddToCart,
-  onChangeInputNumber,
+  quantity,
 }: CoffeeCardCatalogProps) {
+  const { handleChangeCoffeeQuantity } = useApp()
+
   function handleDecOrIncrementInputNumber(type: 'increment' | 'decrement') {
-    onChangeInputNumber(id, type)
+    handleChangeCoffeeQuantity(id, type)
   }
-  function handleChangeInputNumber(type: 'increment' | 'decrement') {
-    onChangeInputNumber(id, type)
+  function handleChangeInputNumber(value: string) {
+    handleChangeCoffeeQuantity(id, null, Number(value))
   }
 
   function handleAddToCart() {
-    onAddToCart()
+    handleChangeCoffeeQuantity(id, 'increment')
   }
 
   return (
@@ -54,7 +53,8 @@ export function CoffeeCardCatalog({
           <InputNumber
             height="2.375rem"
             onChangeInputNumber={handleDecOrIncrementInputNumber}
-            onChange={handleChangeInputNumber}
+            onChange={(e) => handleChangeInputNumber(e.target.value)}
+            value={quantity}
           />
           <Button onClick={handleAddToCart}>
             <ShoppingCart />

@@ -18,44 +18,10 @@ import {
   Coffee as CoffeeIcon,
 } from 'phosphor-react'
 import { CoffeeCardCatalog } from '../../components/CoffeeCardCatalog'
-import { Coffee } from '../../interfaces/Coffee'
-import { useEffect, useState } from 'react'
+import { useApp } from '../../contexts/app'
 
 export function Home() {
-  const [coffees, setCoffees] = useState<Coffee[]>([])
-
-  function parseCoffees(coffees: Coffee[]) {
-    const parsedCoffees = coffees.map((coffee) => ({
-      ...coffee,
-      price: Number(coffee.price).toFixed(2).replace('.', ','),
-    }))
-    setCoffees(parsedCoffees)
-  }
-
-  function handleChangeCoffeeQuantity(
-    id: string,
-    type: 'increment' | 'decrement',
-  ) {
-    const coffeeIndex = coffees.findIndex((coffee) => coffee.id === id)
-    const coffee = coffees[coffeeIndex]
-    if (type === 'increment') {
-      coffee.quantity += 1
-    } else if (type === 'decrement') {
-      coffee.quantity -= 1
-    }
-    const newCoffees = [...coffees]
-    newCoffees[coffeeIndex] = coffee
-    setCoffees(newCoffees)
-  }
-
-  function handleAddToCart() {}
-
-  useEffect(() => {
-    fetch('/api/coffees')
-      .then((response) => response.json())
-      .then((json) => parseCoffees(json.coffees))
-  }, [])
-
+  const { coffeeList } = useApp()
   return (
     <HomeContainer>
       <IntroContainer>
@@ -99,12 +65,8 @@ export function Home() {
       <CoffeeListContainer>
         <h1>Nossos cafés</h1>
         <CoffeeList>
-          {coffees.map((coffee) => (
-            <CoffeeCardCatalog
-              key={coffee.id}
-              onChangeInputNumber={handleChangeCoffeeQuantity}
-              {...coffee}
-            />
+          {coffeeList.map((coffee) => (
+            <CoffeeCardCatalog key={coffee.id} {...coffee} />
           ))}
         </CoffeeList>
       </CoffeeListContainer>
