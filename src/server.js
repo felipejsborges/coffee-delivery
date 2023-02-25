@@ -13,8 +13,7 @@ export function makeServer({ environment = 'test' } = {}) {
         id: '1',
         type: 'espresso',
         title: 'Espresso',
-        description:
-          'Espresso is a coffee brewing method of Italian origin, in which a small amount of nearly boiling water is forced under pressure through finely ground coffee beans.',
+        description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 2.5,
         image: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
@@ -22,8 +21,7 @@ export function makeServer({ environment = 'test' } = {}) {
         id: '2',
         type: 'cappuccino',
         title: 'Cappuccino',
-        description:
-          'Cappuccino is an Italian coffee drink that is traditionally prepared with double espresso, hot milk, and steamed milk foam.',
+        description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.5,
         image: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
@@ -31,8 +29,7 @@ export function makeServer({ environment = 'test' } = {}) {
         id: '3',
         type: 'latte',
         title: 'Latte',
-        description:
-          'A latte is a coffee drink made with espresso and steamed milk.',
+        description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.0,
         image: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
@@ -48,8 +45,7 @@ export function makeServer({ environment = 'test' } = {}) {
         id: '5',
         type: 'americano',
         title: 'Americano',
-        description:
-          'Americano is a type of coffee drink prepared by brewing espresso with added hot water, giving it a similar strength to, but different flavor from drip coffee.',
+        description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 2.5,
         image: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
@@ -57,8 +53,7 @@ export function makeServer({ environment = 'test' } = {}) {
         id: '6',
         type: 'macchiato',
         title: 'Macchiato',
-        description:
-          'Macchiato is a coffee drink consisting of one or two shots of espresso marked with a small amount of foamed milk.',
+        description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.0,
         image: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
@@ -66,8 +61,7 @@ export function makeServer({ environment = 'test' } = {}) {
         id: '7',
         type: 'flat_white',
         title: 'Flat White',
-        description:
-          'Flat White is a coffee drink consisting of espresso with microfoam.',
+        description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.0,
         image: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
@@ -75,8 +69,7 @@ export function makeServer({ environment = 'test' } = {}) {
         id: '8',
         type: 'affogato',
         title: 'Affogato',
-        description:
-          'Affogato is a coffee-based dessert. It consists of one or more scoops of vanilla ice cream topped with a shot of hot espresso.',
+        description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.5,
         image: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })

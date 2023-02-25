@@ -8,20 +8,21 @@ export const PaymentOptionContainer = styled.button<PaymentOptionContainerProps>
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  gap: 0.75rem;
+  padding: 0.75rem 0.5rem;
+  gap: 0.5rem;
   width: 12rem;
   border: 1px solid
-    ${(props) => (props.selected ? props.theme.purple : props.theme.baseButton)};
+    ${(props) => (props.selected ? props.theme.purple : 'transparent')};
   background: ${(props) =>
     props.selected ? props.theme.purpleLight : props.theme.baseButton};
   border-radius: 0.375rem;
 
   &:hover {
-    border: 1px solid
-      ${(props) =>
-        props.selected ? props.theme.purple : props.theme.baseHover};
     background: ${(props) => props.theme.baseHover};
+
+    span {
+      color: ${(props) => props.theme.baseSubTitle};
+    }
   }
 
   svg {
@@ -32,6 +33,6 @@ export const PaymentOptionContainer = styled.button<PaymentOptionContainerProps>
 `
 export const Description = styled.span`
   font-size: 0.75rem;
-  line-height: 160%;
+  line-height: 100%;
   text-transform: uppercase;
 `

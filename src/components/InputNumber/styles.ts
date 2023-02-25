@@ -8,11 +8,13 @@ export const InputNumberContainer = styled.div<InputNumberContainerProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   padding: 0.5rem;
   gap: 0.25rem;
   background: ${(props) => props.theme.baseButton};
   border-radius: 0.375rem;
   height: ${(props) => props.height || '2rem'};
+  width: 4.5rem;
 
   input {
     text-align: center;
@@ -20,17 +22,27 @@ export const InputNumberContainer = styled.div<InputNumberContainerProps>`
     border: none;
     color: ${(props) => props.theme.baseTitle};
     width: 1.25rem;
+    line-height: 100%;
 
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
       -webkit-appearance: none;
-      margin: 0;
     }
   }
 `
 export const InputValueChanger = styled.button`
   background: transparent;
-  font-size: 0.875rem;
-  color: ${(props) => props.theme.purple};
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    color: ${(props) => props.theme.purple};
+
+    &:hover {
+      color: ${(props) => props.theme.purpleDark};
+    }
+  }
 `

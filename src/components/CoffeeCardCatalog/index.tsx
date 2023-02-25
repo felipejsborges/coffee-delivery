@@ -1,18 +1,18 @@
 import {
   CoffeeCardCatalogContainer,
   Image,
-  Type,
+  Tags,
+  Tag,
   Description,
   BuyDetails,
   Price,
-  AddToCart,
-  Button,
+  Actions,
 } from './styles'
 import coffeeCupCatalog from '../../assets/coffee-cup-catalog.svg'
-import { ShoppingCart } from 'phosphor-react'
 import { InputNumber } from '../InputNumber'
 import { Coffee } from '../../interfaces/coffee'
 import { useApp } from '../../contexts/app'
+import { CartButton } from '../CartButton'
 
 interface CoffeeCardCatalogProps extends Coffee {}
 
@@ -40,26 +40,32 @@ export function CoffeeCardCatalog({
   return (
     <CoffeeCardCatalogContainer>
       <Image src={coffeeCupCatalog} alt="Coffee Cup" />
-      <Type>{type}</Type>
+      <Tags>
+        <Tag>
+          <span>{type}</span>
+        </Tag>
+        <Tag>
+          <span>{type}</span>
+        </Tag>
+        <Tag>
+          <span>{type}</span>
+        </Tag>
+      </Tags>
       <Description>
         <h1>{title}</h1>
         <span>{description}</span>
       </Description>
       <BuyDetails>
-        <Price>
-          <strong>R$ {price}</strong>
-        </Price>
-        <AddToCart>
+        <Price>R$ {price}</Price>
+        <Actions>
           <InputNumber
             height="2.375rem"
             onChangeInputNumber={handleDecOrIncrementInputNumber}
             onChange={(e) => handleChangeInputNumber(e.target.value)}
             value={quantity}
           />
-          <Button onClick={handleAddToCart}>
-            <ShoppingCart />
-          </Button>
-        </AddToCart>
+          <CartButton onClick={handleAddToCart} />
+        </Actions>
       </BuyDetails>
     </CoffeeCardCatalogContainer>
   )

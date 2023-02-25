@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const SuccessContainer = styled.div`
-  margin-top: 5rem;
+  margin-top: 3rem;
 `
 
 export const Header = styled.div`

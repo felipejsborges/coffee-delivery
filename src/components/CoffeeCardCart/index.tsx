@@ -1,34 +1,30 @@
 import {
   CoffeeCardCartContainer,
   Image,
-  TitleAndQuantity,
+  Details,
   Price,
-  Quantity,
-  RemoveButton,
-  Intro,
+  Actions,
+  Info,
 } from './styles'
 import coffeeCupCatalog from '../../assets/coffee-cup-catalog.svg'
 import { InputNumber } from '../InputNumber'
-import { Trash } from 'phosphor-react'
+import { RemoveButton } from '../RemoveButton'
 
 export function CoffeeCardCart() {
   return (
     <CoffeeCardCartContainer>
-      <Intro>
+      <Info>
         <Image src={coffeeCupCatalog} alt="Coffee Cup" />
-        <TitleAndQuantity>
-          <h1>Expresso Tradicional</h1>
-          <Quantity>
-            <InputNumber />
-            <RemoveButton>
-              <Trash />
-              <span>Remover</span>
-            </RemoveButton>
-          </Quantity>
-        </TitleAndQuantity>
-      </Intro>
+        <Details>
+          <span>Expresso Tradicional</span>
+          <Actions>
+            <InputNumber onChangeInputNumber={() => {}} />
+            <RemoveButton />
+          </Actions>
+        </Details>
+      </Info>
       <Price>
-        <span>R$ 9,90</span>
+        <strong>R$ 9,90</strong>
       </Price>
     </CoffeeCardCartContainer>
   )

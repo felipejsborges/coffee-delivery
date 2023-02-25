@@ -1,4 +1,4 @@
-import { CurrencyDollar, MapPinLine } from 'phosphor-react'
+import { CurrencyDollar, MapPinLine } from '../../styles/icons'
 import { CoffeeCardCart } from '../../components/CoffeeCardCart'
 import { Input } from '../../components/Input'
 import { PaymentOption } from '../../components/PaymentOption'

@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-export const HomeContainer = styled.div``
-
 export const IntroContainer = styled.div`
   display: flex;
   align-items: center;
@@ -81,8 +79,6 @@ export const CoffeeImage = styled.img`
   width: 100%;
   max-width: 40rem;
 `
-
-export const CoffeeListContainer = styled.div``
 
 export const CoffeeList = styled.div`
   margin-top: 3rem;

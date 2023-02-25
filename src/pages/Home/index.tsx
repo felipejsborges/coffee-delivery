@@ -1,12 +1,10 @@
 import {
-  HomeContainer,
   IntroContainer,
   Description,
   TitleContainer,
   ItemsContainer,
   ItemContent,
   IconContainer,
-  CoffeeListContainer,
   CoffeeList,
   CoffeeImage,
 } from './styles'
@@ -16,14 +14,15 @@ import {
   Package,
   Timer,
   Coffee as CoffeeIcon,
-} from 'phosphor-react'
+} from '../../styles/icons'
 import { CoffeeCardCatalog } from '../../components/CoffeeCardCatalog'
 import { useApp } from '../../contexts/app'
 
 export function Home() {
   const { coffeeList } = useApp()
+
   return (
-    <HomeContainer>
+    <>
       <IntroContainer>
         <Description>
           <TitleContainer>
@@ -62,14 +61,14 @@ export function Home() {
         </Description>
         <CoffeeImage src={coffeeImage} alt="coffee image" />
       </IntroContainer>
-      <CoffeeListContainer>
+      <>
         <h1>Nossos cafés</h1>
         <CoffeeList>
           {coffeeList.map((coffee) => (
             <CoffeeCardCatalog key={coffee.id} {...coffee} />
           ))}
         </CoffeeList>
-      </CoffeeListContainer>
-    </HomeContainer>
+      </>
+    </>
   )
 }

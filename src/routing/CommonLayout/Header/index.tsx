@@ -6,7 +6,7 @@ import {
   CartContainer,
 } from './styles'
 import { Link } from 'react-router-dom'
-import { ShoppingCart, MapPin } from 'phosphor-react'
+import { ShoppingCart, MapPin } from '../../../styles/icons'
 
 export function Header() {
   return (

@@ -4,6 +4,6 @@ export interface Coffee {
   title: string
   description: string
   price: string
-  image: number
+  image: string
   quantity: number
 }
