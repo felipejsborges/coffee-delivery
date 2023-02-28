@@ -5,21 +5,30 @@ import {
   useEffect,
   useReducer,
 } from 'react'
-import { Coffee } from '../interfaces/coffee'
 import produce from 'immer'
 import { localStorageStateKey } from '../constants/storage'
+import { Coffee } from '../interfaces/coffee'
+import { Address } from '../interfaces/address'
+import { PaymentType } from '../interfaces/payment-type'
+import { useNavigate } from 'react-router-dom'
+import { Cart } from '../interfaces/cart'
+import { numberToReal } from '../utils'
 
 interface State {
+  location: string
+  address: Address
+  paymentType: PaymentType
   coffeeList: Coffee[]
-  cart: Coffee[]
-  location: any
+  cart: Cart
 }
 interface IAppContext extends State {
-  handleChangeCoffeeQuantity: (
-    id: string,
-    type: 'increment' | 'decrement' | null,
-    value?: number,
-  ) => void
+  onClickToDecreaseCoffeeQuantity: (id: string) => void
+  onClickToIncreaseCoffeeQuantity: (id: string) => void
+  onChangeInputQuantity: (id: string, quantity: number) => void
+  goToCartPage: () => void
+  onChangeAddress: (field: string, value: string) => void
+  onChangePaymentType: (paymentType: PaymentType) => void
+  onClickToRemoveCoffeeFromCart: (id: string) => void
 }
 
 const AppContext = createContext({} as IAppContext)
@@ -31,50 +40,47 @@ function reducer(state: any, action: any) {
         draft.coffeeList = action.payload.coffees
       })
     }
-    case 'addItemToCart': {
-      return produce(state, (draft: any) => {
-        const coffeeDetails = draft.coffeeList[action.payload.listIndex]
-        coffeeDetails.quantity = 1
-        draft.cart.push(coffeeDetails)
-      })
-    }
-    case 'removeItemFromCart': {
-      return produce(state, (draft: any) => {
-        const { cartIndex, listIndex } = action.payload
-        draft.cart.splice(cartIndex, 1)
-        draft.coffeeList[listIndex].quantity = 0
-      })
-    }
-    case 'incrementCoffeeQuantity': {
-      return produce(state, (draft: any) => {
-        const { cartIndex, listIndex } = action.payload
-        draft.cart[cartIndex].quantity += 1
-        draft.coffeeList[listIndex].quantity += 1
-      })
-    }
-    case 'decrementCoffeeQuantity': {
-      return produce(state, (draft: any) => {
-        const { cartIndex, listIndex } = action.payload
-        draft.cart[cartIndex].quantity -= 1
-        draft.coffeeList[listIndex].quantity -= 1
-      })
-    }
+
     case 'updateCoffeeQuantity': {
       return produce(state, (draft: any) => {
-        const { cartIndex, listIndex, value } = action.payload
-        draft.cart[cartIndex].quantity = value
-        draft.coffeeList[listIndex].quantity = value
+        const { id, index, quantity, addCoffeeToCart, removeCoffeeFromCart } =
+          action.payload
+        if (addCoffeeToCart) {
+          draft.cart[id] = { ...state.coffeeList[index], quantity }
+        }
+        if (removeCoffeeFromCart) {
+          delete draft.cart[id]
+        } else {
+          draft.cart[id].quantity = quantity
+        }
+        draft.coffeeList[index].quantity = quantity
       })
     }
+
+    case 'changeAddress': {
+      return produce(state, (draft: any) => {
+        const { field, value } = action.payload
+        draft.address[field] = value
+      })
+    }
+
+    case 'changePaymentType': {
+      return produce(state, (draft: any) => {
+        draft.paymentType = action.payload.paymentType
+      })
+    }
+
     default:
       return state
   }
 }
 
 const initialStateValue: State = {
+  location: 'Localize-se',
+  address: {} as Address,
+  paymentType: 'credit_card',
   coffeeList: [],
-  cart: [],
-  location: {},
+  cart: {},
 }
 
 function initializer() {
@@ -88,83 +94,106 @@ function initializer() {
 export function AppContextProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialStateValue, initializer)
 
-  function handleReceiveCoffeeList(coffees: Coffee[]) {
-    const parsedCoffees = coffees.map((coffee) => ({
+  const navigate = useNavigate()
+
+  function changeCoffeeQuantity(id: string, quantity: number, index?: number) {
+    if (quantity < 0 || quantity > 99) return
+    const addCoffeeToCart = quantity > 0 && !state.cart[id]
+    if (!Number.isInteger(index)) {
+      index = state.coffeeList.findIndex((coffee: Coffee) => coffee.id === id)
+    }
+    const removeCoffeeFromCart = !!state.cart[id] && quantity === 0
+    dispatch({
+      type: 'updateCoffeeQuantity',
+      payload: {
+        id,
+        index,
+        quantity,
+        addCoffeeToCart,
+        removeCoffeeFromCart,
+      },
+    })
+  }
+
+  function decreaseCoffeeQuantity(id: string) {
+    const index = state.coffeeList.findIndex(
+      (coffee: Coffee) => coffee.id === id,
+    )
+    if (index < 0) return
+    const quantity = (state.coffeeList[index].quantity || 0) - 1
+    changeCoffeeQuantity(id, quantity, index)
+  }
+
+  function increaseCoffeeQuantity(id: string) {
+    const index = state.coffeeList.findIndex(
+      (coffee: Coffee) => coffee.id === id,
+    )
+    if (index < 0) return
+    const quantity = (state.coffeeList[index].quantity || 0) + 1
+    changeCoffeeQuantity(id, quantity, index)
+  }
+
+  function onChangeAddress(field: string, value: string) {
+    dispatch({
+      type: 'changeAddress',
+      payload: {
+        field,
+        value,
+      },
+    })
+  }
+
+  function onChangePaymentType(paymentType: PaymentType) {
+    dispatch({
+      type: 'changePaymentType',
+      payload: {
+        paymentType,
+      },
+    })
+  }
+
+  function onClickToRemoveCoffeeFromCart(id: string) {
+    changeCoffeeQuantity(id, 0)
+  }
+
+  function persistState() {
+    localStorage.setItem(localStorageStateKey, JSON.stringify(state))
+  }
+
+  function goToCartPage() {
+    navigate('/checkout')
+  }
+
+  async function getCoffeeList() {
+    const response = await fetch('/api/coffees')
+    const responseJson = await response.json()
+    const rawCoffees = responseJson.coffees as Coffee[]
+    const parsedCoffees = rawCoffees.map((coffee) => ({
       ...coffee,
-      price: Number(coffee.price).toFixed(2).replace('.', ','),
-      quantity: 0,
+      price: numberToReal(coffee.price),
     }))
     dispatch({ type: 'fillCoffeeList', payload: { coffees: parsedCoffees } })
   }
 
-  function handleChangeCoffeeQuantity(
-    id: string,
-    type: 'increment' | 'decrement',
-    value?: number,
-  ) {
-    const listIndex = state.coffeeList.findIndex(
-      (coffee: Coffee) => coffee.id === id,
-    )
-    const cartIndex = state.cart.findIndex((coffee: Coffee) => coffee.id === id)
-    if (cartIndex < 0) {
-      // coffee is not in cart
-      if (type === 'increment') {
-        dispatch({
-          type: 'addItemToCart',
-          payload: { listIndex },
-        })
-        return
-      } else {
-        // type === 'decrement'
-        return
-      }
-    }
-    // coffee is in cart
-    if (
-      (state.cart[cartIndex].quantity === 1 && type === 'decrement') ||
-      value === 0
-    ) {
-      dispatch({
-        type: 'removeItemFromCart',
-        payload: { cartIndex, listIndex },
-      })
-      return
-    }
-    if (value) {
-      dispatch({
-        type: 'updateCoffeeQuantity',
-        payload: { cartIndex, listIndex, value },
-      })
-      return
-    }
-    if (type === 'increment') {
-      dispatch({
-        type: 'incrementCoffeeQuantity',
-        payload: { cartIndex, listIndex },
-      })
-      return
-    }
-    dispatch({
-      type: 'decrementCoffeeQuantity',
-      payload: { cartIndex, listIndex },
-    })
-  }
-
   useEffect(() => {
-    fetch('/api/coffees')
-      .then((response) => response.json())
-      .then((json) => handleReceiveCoffeeList(json.coffees))
+    getCoffeeList()
   }, [])
 
   useEffect(() => {
-    localStorage.setItem(localStorageStateKey, JSON.stringify(state))
-  }, [state])
+    persistState()
+  }, [state]) // eslint-disable-line
 
   return (
     <AppContext.Provider
       value={{
         ...state,
-        handleChangeCoffeeQuantity,
+        onClickToDecreaseCoffeeQuantity: decreaseCoffeeQuantity,
+        onClickToIncreaseCoffeeQuantity: increaseCoffeeQuantity,
+        onChangeInputQuantity: changeCoffeeQuantity,
+        goToCartPage,
+        onChangeAddress,
+        onChangePaymentType,
+        onClickToRemoveCoffeeFromCart,
       }}
     >
       {children}

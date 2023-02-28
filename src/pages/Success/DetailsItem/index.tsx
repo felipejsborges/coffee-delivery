@@ -6,12 +6,15 @@ import {
   DetailsItemContent,
   IconContainer,
 } from './styles'
+import { useApp } from '../../../contexts/app'
 
 interface DetailsItemProps {
   type: DetailsItemTypes
 }
 
 export function DetailsItem({ type }: DetailsItemProps) {
+  const { address, paymentType } = useApp()
+
   function Icon() {
     switch (type) {
       case 'address':
@@ -34,16 +37,27 @@ export function DetailsItem({ type }: DetailsItemProps) {
     }
   }, [type])
 
+  function getPaymentTypeLabel(paymentType: string) {
+    switch (paymentType) {
+      case 'cash':
+        return 'Dinheiro'
+      case 'credit_card':
+        return 'Cartão de crédito'
+      case 'pix':
+        return 'Pix'
+    }
+  }
+
   const content = useMemo(() => {
     switch (type) {
       case 'address':
-        return 'Rua João Daniel Martinelli, 102. Farrapos - Porto Alegre, RS'
+        return `${address.street}, ${address.number}, ${address.complement}. ${address.neighborhood}. ${address.city}, ${address.state}`
       case 'delivery':
         return '20 min - 30 min'
       case 'payment':
-        return 'Cartão de Crédito'
+        return getPaymentTypeLabel(paymentType)
     }
-  }, [type])
+  }, [type, address, paymentType])
 
   return (
     <DetailsItemContainer>

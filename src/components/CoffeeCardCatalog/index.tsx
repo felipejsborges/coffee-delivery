@@ -13,58 +13,50 @@ import { InputNumber } from '../InputNumber'
 import { Coffee } from '../../interfaces/coffee'
 import { useApp } from '../../contexts/app'
 import { CartButton } from '../CartButton'
+import { numberToReal } from '../../utils'
 
 interface CoffeeCardCatalogProps extends Coffee {}
 
 export function CoffeeCardCatalog({
   id,
-  type,
+  tags,
   title,
   description,
   price,
   quantity,
 }: CoffeeCardCatalogProps) {
-  const { handleChangeCoffeeQuantity } = useApp()
-
-  function handleDecOrIncrementInputNumber(type: 'increment' | 'decrement') {
-    handleChangeCoffeeQuantity(id, type)
-  }
-  function handleChangeInputNumber(value: string) {
-    handleChangeCoffeeQuantity(id, null, Number(value))
-  }
-
-  function handleAddToCart() {
-    handleChangeCoffeeQuantity(id, 'increment')
-  }
+  const {
+    onClickToDecreaseCoffeeQuantity,
+    onClickToIncreaseCoffeeQuantity,
+    onChangeInputQuantity,
+    goToCartPage,
+  } = useApp()
 
   return (
     <CoffeeCardCatalogContainer>
       <Image src={coffeeCupCatalog} alt="Coffee Cup" />
       <Tags>
-        <Tag>
-          <span>{type}</span>
-        </Tag>
-        <Tag>
-          <span>{type}</span>
-        </Tag>
-        <Tag>
-          <span>{type}</span>
-        </Tag>
+        {tags.map((tag, index) => (
+          <Tag key={tag + index}>
+            <span>{tag}</span>
+          </Tag>
+        ))}
       </Tags>
       <Description>
         <h1>{title}</h1>
         <span>{description}</span>
       </Description>
       <BuyDetails>
-        <Price>R$ {price}</Price>
+        <Price>R$ {numberToReal(price)}</Price>
         <Actions>
           <InputNumber
             height="2.375rem"
-            onChangeInputNumber={handleDecOrIncrementInputNumber}
-            onChange={(e) => handleChangeInputNumber(e.target.value)}
-            value={quantity}
+            onDecreaseCoffeeQuantity={() => onClickToDecreaseCoffeeQuantity(id)}
+            onIncreaseCoffeeQuantity={() => onClickToIncreaseCoffeeQuantity(id)}
+            onChange={(e) => onChangeInputQuantity(id, Number(e.target.value))}
+            value={quantity || 0}
           />
-          <CartButton onClick={handleAddToCart} />
+          <CartButton onClick={goToCartPage} />
         </Actions>
       </BuyDetails>
     </CoffeeCardCatalogContainer>

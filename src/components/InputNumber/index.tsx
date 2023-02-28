@@ -4,29 +4,23 @@ import { Minus, Plus } from '../../styles/icons'
 
 interface InputNumberProps extends InputHTMLAttributes<HTMLInputElement> {
   height?: string
-  onChangeInputNumber: (type: 'increment' | 'decrement') => void
+  onDecreaseCoffeeQuantity: () => void
+  onIncreaseCoffeeQuantity: () => void
 }
 
 export function InputNumber({
   height,
-  onChangeInputNumber,
+  onDecreaseCoffeeQuantity,
+  onIncreaseCoffeeQuantity,
   ...props
 }: InputNumberProps) {
-  function handleDecrementValue() {
-    onChangeInputNumber('decrement')
-  }
-
-  function handleIncrement() {
-    onChangeInputNumber('increment')
-  }
-
   return (
     <InputNumberContainer height={height}>
-      <InputValueChanger onClick={handleDecrementValue}>
+      <InputValueChanger onClick={onDecreaseCoffeeQuantity}>
         <Minus />
       </InputValueChanger>
-      <input type="number" defaultValue={0} min={0} max={99} {...props} />
-      <InputValueChanger onClick={handleIncrement}>
+      <input type="number" min={0} max={99} {...props} />
+      <InputValueChanger onClick={onIncreaseCoffeeQuantity}>
         <Plus />
       </InputValueChanger>
     </InputNumberContainer>

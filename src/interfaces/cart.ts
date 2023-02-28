@@ -1,5 +1,5 @@
 import { Coffee } from './coffee'
 
 export interface Cart {
-  items: Coffee[]
+  [id: string]: Coffee
 }

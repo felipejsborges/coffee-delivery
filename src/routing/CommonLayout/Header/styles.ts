@@ -10,6 +10,10 @@ export const HeaderContainer = styled.div`
   }
 `
 
+export const Logo = styled.div`
+  cursor: pointer;
+`
+
 export const NavItems = styled.div`
   gap: 0.75rem;
   display: flex;
@@ -35,14 +39,5 @@ export const LocationContainer = styled(ActionContainer)`
 
   span {
     font-size: 0.875rem;
-  }
-`
-
-export const CartContainer = styled(ActionContainer)`
-  background: ${(props) => props.theme.yellowLight};
-  width: 2.375rem;
-
-  svg {
-    color: ${(props) => props.theme.yellowDark};
   }
 `

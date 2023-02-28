@@ -11,67 +11,67 @@ export function makeServer({ environment = 'test' } = {}) {
     seeds(server) {
       server.create('coffee', {
         id: '1',
-        type: 'espresso',
+        tags: ['espresso', 'espresso', 'espresso'],
         title: 'Espresso',
         description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 2.5,
-        image: 'https://unsplash.com/photos/nBJHO6wmRWw',
+        imageUrl: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
       server.create('coffee', {
         id: '2',
-        type: 'cappuccino',
+        tags: ['cappuccino', 'cappuccino', 'cappuccino'],
         title: 'Cappuccino',
         description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.5,
-        image: 'https://unsplash.com/photos/nBJHO6wmRWw',
+        imageUrl: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
       server.create('coffee', {
         id: '3',
-        type: 'latte',
+        tags: ['latte', 'latte', 'latte'],
         title: 'Latte',
         description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.0,
-        image: 'https://unsplash.com/photos/nBJHO6wmRWw',
+        imageUrl: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
       server.create('coffee', {
         id: '4',
-        type: 'mocha',
+        tags: ['mocha', 'mocha', 'mocha'],
         title: 'Mocha',
         description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.5,
-        image: 'https://unsplash.com/photos/nBJHO6wmRWw',
+        imageUrl: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
       server.create('coffee', {
         id: '5',
-        type: 'americano',
+        tags: ['americano', 'americano', 'americano'],
         title: 'Americano',
         description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 2.5,
-        image: 'https://unsplash.com/photos/nBJHO6wmRWw',
+        imageUrl: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
       server.create('coffee', {
         id: '6',
-        type: 'macchiato',
+        tags: ['macchiato', 'macchiato', 'macchiato'],
         title: 'Macchiato',
         description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.0,
-        image: 'https://unsplash.com/photos/nBJHO6wmRWw',
+        imageUrl: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
       server.create('coffee', {
         id: '7',
-        type: 'flat_white',
+        tags: ['flat_white', 'flat_white', 'flat_white'],
         title: 'Flat White',
         description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.0,
-        image: 'https://unsplash.com/photos/nBJHO6wmRWw',
+        imageUrl: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
       server.create('coffee', {
         id: '8',
-        type: 'affogato',
+        tags: ['affogato', 'affogato', 'affogato'],
         title: 'Affogato',
         description: 'Mocha is a chocolate-flavored variant of a latte.',
         price: 3.5,
-        image: 'https://unsplash.com/photos/nBJHO6wmRWw',
+        imageUrl: 'https://unsplash.com/photos/nBJHO6wmRWw',
       })
     },
 

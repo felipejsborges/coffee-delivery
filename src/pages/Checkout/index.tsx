@@ -24,8 +24,34 @@ import {
   PricingItem,
   PricingTotal,
 } from './styles'
+import { useApp } from '../../contexts/app'
+import { useNavigate } from 'react-router-dom'
+import { useMemo } from 'react'
+import { numberToReal } from '../../utils'
 
 export function Checkout() {
+  const navigate = useNavigate()
+
+  const { address, paymentType, cart, onChangeAddress, onChangePaymentType } =
+    useApp()
+
+  function onClickOnSubmit() {
+    navigate('/success')
+  }
+
+  const total = useMemo(() => {
+    return Object.values(cart).reduce((acc, coffee) => {
+      const price = Number((coffee.price as any).replace(',', '.'))
+      return acc + price * (coffee.quantity || 0)
+    }, 0)
+  }, [cart])
+
+  const delivery = 3.5
+
+  const totalWithDelivery = useMemo(() => {
+    return total + delivery
+  }, [total, delivery])
+
   return (
     <CheckoutContainer>
       <ComplementContainer>
@@ -43,19 +69,51 @@ export function Checkout() {
             </AddressHeader>
             <AddressContent>
               <CEPContainer>
-                <Input placeholder="CEP" />
+                <Input
+                  placeholder="CEP"
+                  value={address.zipCode}
+                  onChange={(e) => onChangeAddress('zipCode', e.target.value)}
+                />
               </CEPContainer>
               <StreetContainer>
-                <Input placeholder="Rua" />
+                <Input
+                  placeholder="Rua"
+                  value={address.street}
+                  onChange={(e) => onChangeAddress('street', e.target.value)}
+                />
               </StreetContainer>
               <NumberAndComplementContainer>
-                <Input placeholder="Número" />
-                <Input placeholder="Complemento (Opcional)" />
+                <Input
+                  placeholder="Número"
+                  value={address.number}
+                  onChange={(e) => onChangeAddress('number', e.target.value)}
+                />
+                <Input
+                  placeholder="Complemento (Opcional)"
+                  value={address.complement}
+                  onChange={(e) =>
+                    onChangeAddress('complement', e.target.value)
+                  }
+                />
               </NumberAndComplementContainer>
               <NeighborhoodCityUfContainer>
-                <Input placeholder="Bairro" />
-                <Input placeholder="Cidade" />
-                <Input placeholder="UF" />
+                <Input
+                  placeholder="Bairro"
+                  value={address.neighborhood}
+                  onChange={(e) =>
+                    onChangeAddress('neighborhood', e.target.value)
+                  }
+                />
+                <Input
+                  placeholder="Cidade"
+                  value={address.city}
+                  onChange={(e) => onChangeAddress('city', e.target.value)}
+                />
+                <Input
+                  placeholder="UF"
+                  value={address.state}
+                  onChange={(e) => onChangeAddress('state', e.target.value)}
+                />
               </NeighborhoodCityUfContainer>
             </AddressContent>
           </AddressContainer>
@@ -73,9 +131,21 @@ export function Checkout() {
               </div>
             </PaymentHeader>
             <PaymentOptions>
-              <PaymentOption type="credit_card" selected />
-              <PaymentOption type="cash" />
-              <PaymentOption type="pix" />
+              <PaymentOption
+                type="credit_card"
+                selected={paymentType === 'credit_card'}
+                onClick={() => onChangePaymentType('credit_card')}
+              />
+              <PaymentOption
+                type="cash"
+                selected={paymentType === 'cash'}
+                onClick={() => onChangePaymentType('cash')}
+              />
+              <PaymentOption
+                type="pix"
+                selected={paymentType === 'pix'}
+                onClick={() => onChangePaymentType('pix')}
+              />
             </PaymentOptions>
           </PaymentContainer>
         </ComplementContent>
@@ -83,24 +153,28 @@ export function Checkout() {
       <OrderDetailsContainer>
         <h1>Cafés selecionados</h1>
         <OrderDetailsContent>
-          <CoffeeCardCart />
-          <Divider />
-          <CoffeeCardCart />
-          <Divider />
+          {Object.values(cart).map((coffee) => (
+            <>
+              <CoffeeCardCart key={coffee.id} {...coffee} />
+              <Divider />
+            </>
+          ))}
           <Pricing>
             <PricingItem>
               <label>Total de items</label>
-              <span>R$ 29,70</span>
+              <span>R$ {numberToReal(total)}</span>
             </PricingItem>
             <PricingItem>
               <label>Entrega</label>
-              <span>R$ 3,50</span>
+              <span>R$ {numberToReal(delivery)}</span>
             </PricingItem>
             <PricingTotal>
               <label>Total</label>
-              <span>R$ 33,20</span>
+              <span>R$ {numberToReal(totalWithDelivery)}</span>
             </PricingTotal>
-            <SubmitButton> Confirmar pedido</SubmitButton>
+            <SubmitButton onClick={onClickOnSubmit}>
+              Confirmar pedido
+            </SubmitButton>
           </Pricing>
         </OrderDetailsContent>
       </OrderDetailsContainer>

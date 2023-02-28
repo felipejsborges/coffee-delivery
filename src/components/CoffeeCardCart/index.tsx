@@ -6,25 +6,53 @@ import {
   Actions,
   Info,
 } from './styles'
-import coffeeCupCatalog from '../../assets/coffee-cup-catalog.svg'
 import { InputNumber } from '../InputNumber'
 import { RemoveButton } from '../RemoveButton'
+import { Coffee } from '../../interfaces/coffee'
+import { useApp } from '../../contexts/app'
+import { numberToReal } from '../../utils'
 
-export function CoffeeCardCart() {
+interface CoffeeCardCartProps extends Coffee {}
+
+export function CoffeeCardCart({
+  id,
+  imageUrl,
+  title,
+  price,
+  quantity,
+}: CoffeeCardCartProps) {
+  const {
+    onClickToDecreaseCoffeeQuantity,
+    onClickToIncreaseCoffeeQuantity,
+    onChangeInputQuantity,
+    onClickToRemoveCoffeeFromCart,
+  } = useApp()
+
   return (
     <CoffeeCardCartContainer>
       <Info>
-        <Image src={coffeeCupCatalog} alt="Coffee Cup" />
+        <Image src={imageUrl} alt="Coffee Cup" />
         <Details>
-          <span>Expresso Tradicional</span>
+          <span>{title}</span>
           <Actions>
-            <InputNumber onChangeInputNumber={() => {}} />
-            <RemoveButton />
+            <InputNumber
+              onDecreaseCoffeeQuantity={() =>
+                onClickToDecreaseCoffeeQuantity(id)
+              }
+              onIncreaseCoffeeQuantity={() =>
+                onClickToIncreaseCoffeeQuantity(id)
+              }
+              onChange={(e) =>
+                onChangeInputQuantity(id, Number(e.target.value))
+              }
+              value={quantity || 0}
+            />
+            <RemoveButton onClick={() => onClickToRemoveCoffeeFromCart(id)} />
           </Actions>
         </Details>
       </Info>
       <Price>
-        <strong>R$ 9,90</strong>
+        <strong>R$ {numberToReal(price)}</strong>
       </Price>
     </CoffeeCardCartContainer>
   )

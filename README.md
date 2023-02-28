@@ -1,27 +1,43 @@
-[Figma](https://www.figma.com/file/f8Pd3QDmAjB0YSFD63wTcw/Coffee-Delivery-(Copy)?node-id=0%3A1&t=acr9JdPQqlicCipd-0)
+<div align="center">
+	<h1>Coffee Delivery ☕🛵</h1>
+	<br>
+	<img src=".github/intro.png" alt="Intro" style="max-width:50%"/>
+</div>
 
-Aplicação para gerenciar um carrinho de compras de uma cafeteria fictícia, que contém as seguintes funcionalidades:
+# Overview
 
-- [X] Home
-- [X] Checkout
-- [X] Success
-- [X] Listagem de produtos (cafés) disponíveis para compra
-- [X] Adicionar uma quantidade específicas de itens no carrinho
-- [X] Aumentar ou remover a quantidade de itens no carrinho
-- [ ] Puxar localização do usuário e preencher cidade e endereço no state
-- [ ] Formulário para o usuário preencher o seu endereço
-- [ ] Exibir o total de itens no carrinho no Header
-- [ ] Exibir o valor total da soma de itens no carrinho multiplicados pelo valor
-- [ ] Localização dinâmica
-- [ ] Carrinho com total de items
+Application to manage a shopping cart of a fictitious coffee shop. The objective is to practice the concepts of ReactJS like ContextAPI, LocalStorage, lists and keys, properties and componentization.
 
-Apesar de serem poucas funcionalidades, você vai precisar relembrar conceitos como:
+# UI
 
-- [ ] Estados
-- [ ] ContextAPI
-- [ ] LocalStorage
-- [ ] Imutabilidade do estado
-- [ ] Listas e chaves no ReactJS
-- [ ] Propriedades
-- [ ] Componentização
-- [ ] manipulação de arrays com `reduce` para o cálculo do valor total do carrinho
+[Click here](https://www.figma.com/file/f8Pd3QDmAjB0YSFD63wTcw/Coffee-Delivery-(Copy)?node-id=0%3A1&t=acr9JdPQqlicCipd-0) to access the UI design.
+
+# Requirements
+
+- [X] Show a list of coffees available for shopping.
+- [X] Add items on cart
+- [X] Increase, decrease or change items quantity on cart
+- [X] Address form
+- [X] Show quantity of selected items on Coffee Icon on Header
+- [X] Show total price
+
+# Run locally
+
+<h3>How to run it on your computer</h3>
+
+- Install [Node.js](https://nodejs.org/en/download/), [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/) and [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), then:
+
+```
+# clone this repo
+$ git clone https://github.com/felipejsborges/coffee-delivery.git
+
+# go to project folder
+$ cd coffee-delivery
+
+# install dependencies
+$ yarn
+
+# run the app
+$ yarn dev
+```
+<hr>

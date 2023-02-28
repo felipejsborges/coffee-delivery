@@ -1,12 +1,13 @@
 import { PaymentOptionContainer, Description } from './styles'
 import { CreditCard, Bank, Money } from '../../styles/icons'
+import { HTMLAttributes } from 'react'
 
-interface PaymentOptionProps {
+interface PaymentOptionProps extends HTMLAttributes<HTMLButtonElement> {
   type: 'credit_card' | 'pix' | 'cash'
   selected?: boolean
 }
 
-export function PaymentOption({ selected, type }: PaymentOptionProps) {
+export function PaymentOption({ selected, type, ...rest }: PaymentOptionProps) {
   function Icon() {
     switch (type) {
       case 'cash':
@@ -24,11 +25,11 @@ export function PaymentOption({ selected, type }: PaymentOptionProps) {
     type === 'cash'
       ? 'DINHEIRO'
       : type === 'credit_card'
-        ? 'CARTÃO DE CRÉDITO'
-        : 'PIX'
+      ? 'CARTÃO DE CRÉDITO'
+      : 'PIX'
 
   return (
-    <PaymentOptionContainer selected={selected}>
+    <PaymentOptionContainer selected={selected} {...rest}>
       <Icon />
       <Description>{description}</Description>
     </PaymentOptionContainer>
